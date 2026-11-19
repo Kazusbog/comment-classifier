@@ -21,4 +21,17 @@
 **Frontend**: React + TypeScript
                 **Dependencies**: react router-dom - клиентская маршрутизация для прехода между экранами
                                   @mui/material - готовая UI библиотека, обеспечивающая единый дизайн
-            
+
+## Модель данных
+БД состоит из двух связанных таблиц (связь **один-ко-многим**):
+
+1. **`sources` (Источники комментариев)**
+    * `id` (`Integer`, **PK**) - уникальный идентификатор источника.
+    * `name` (`String`, Unique, Not Null) - название площадки.
+    * `description` (`String`, Nullable) - дополнительное описание источника.
+
+2. **`comments` (Комментарии)**
+    * `id` (`Integer`, **PK**) - уникальный идентификатор комментария.
+    * `text` (`String`, Not Null) - текст комментария.
+    * `sentiment` (`String`, Nullable) - результат классификации тональности (`positive`, `neutral`, `negative`).
+    * `source_id` (`Integer`, **FK -> `sources.id`**, Nullable) - внешний ключ, связывающий комментарий с источником.
