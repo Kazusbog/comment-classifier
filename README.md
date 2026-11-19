@@ -35,3 +35,42 @@
     * `text` (`String`, Not Null) - текст комментария.
     * `sentiment` (`String`, Nullable) - результат классификации тональности (`positive`, `neutral`, `negative`).
     * `source_id` (`Integer`, **FK -> `sources.id`**, Nullable) - внешний ключ, связывающий комментарий с источником.
+
+## Настройка и запуск Backend
+
+### 1. Подготовка базы данных
+1. Убедитесь, что локальный сервер **PostgreSQL** запущен.
+2. Создайте пустую базу данных с именем **`comment_classifier`** через pgAdmin или в терминале `psql`:
+   ```sql
+   CREATE DATABASE comment_classifier;
+   ```
+
+### 2. Установка зависимостей и конфигурация
+1. Перейдите в директорию бэкенда:
+   ```bash
+   cd backend
+   ```
+2. Создайте и активируйте виртуальное окружение:
+   ```bash
+   python -m venv .venv
+   # Для Windows (Git Bash):
+   source .venv/Scripts/activate
+   # Для Linux/macOS:
+   source .venv/bin/activate
+   ```
+3. Установите необходимые зависимости:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Скопируйте файл-шаблон с настройками окружения и заполните параметры подключения к вашей локальной БД PostgreSQL:
+   ```bash
+   cp .env.example .env
+   ```
+
+### 3. Создание таблиц и запуск сервера
+1. Запустите сервер разработки Uvicorn:
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+2. **Создание таблиц:** при запуске приложения SQLAlchemy автоматически создаёт таблицы `sources` и `comments` с первичными и внешними ключами в базе `comment_classifier` через `Base.metadata.create_all(bind=engine)`.
+3. Интерактивная документация API (Swagger UI) доступна по адресу: `http://127.0.0.1:8000/docs`.
